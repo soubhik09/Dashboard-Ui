@@ -32,6 +32,7 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@/components/ui/collapsible";
+import { useState } from "react";
 
 const items = [
   {
@@ -74,20 +75,23 @@ export function AppSidebar() {
     navigate("/", { replace: true });
   };
 
+  const [isActive, setIsActive] = useState(null);
   return (
     <Sidebar>
       <SidebarContent className="overflow-auto no-scrollbar">
         <div>
           <SidebarGroup>
             <SidebarGroupLabel className="text-3xl font-bold text-black flex justify-center">
-              <p onClick={handleLogo} className="cursor-pointer">abun</p>
+              <p onClick={handleLogo} className="cursor-pointer">
+                abun
+              </p>
             </SidebarGroupLabel>
-            
+
             <SidebarDropdown />
 
             <SidebarGroupContent>
               <SidebarMenu>
-                {items.map((item) =>
+                {items.map((item, idx) =>
                   item.subMenu ? (
                     <Collapsible key={item.title} className="group/collapsible">
                       <SidebarMenuItem>
@@ -132,7 +136,14 @@ export function AppSidebar() {
                       <SidebarMenuButton asChild>
                         <RouterLink to={item.url}>
                           <item.icon className="text-blue-700" />
-                          <span>{item.title}</span>
+                          <span
+                            onClick={() => setIsActive(idx)}
+                            className={`${
+                              isActive === idx && "text-blue-700 font-semibold"
+                            } hover:text-blue-700 transition-colors duration-300 ease-in-out`}
+                          >
+                            {item.title}
+                          </span>
                         </RouterLink>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
